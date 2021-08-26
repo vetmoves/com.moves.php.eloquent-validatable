@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3|^8.0",
+        "illuminate/validation": "^8.55"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
