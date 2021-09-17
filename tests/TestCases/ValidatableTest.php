@@ -1,95 +1,99 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Moves\Eloquent\Validatable\Interfaces\IValidatable;
-use Moves\Eloquent\Validatable\Validatable;
-use Moves\TestHelpers\Models\PropertyConfigTest;
-use Moves\TestHelpers\Models\MethodConfigTest;
+use Illuminate\Validation\ValidationException;
+
+use Tests\TestCases\TestCase;
+
+use Tests\Helpers\Models\MValidatableAttributes;
+use Tests\Helpers\Models\MValidatableFunctions;
+use Tests\Helpers\Models\MValidatableDataAccessPriority;
 
 class ValidatableTest extends TestCase
 {
-    /** @test */
-    public function failsValidationWithoutReqPropertyAttrs()
+    public function testValidatesOnSave()
     {
-        $mock = $this->createMock("Moves\TestHelpers\Models\PropertyConfigTest");
+        $mock = new MValidatableAttributes();
 
-        $mock->attributesToArray = function() {
-            return [
-                'last_name' => 'Dietrich'
-            ];
-        }
+        $this->expectException(ValidationException::class);
         $mock->save();
-
-        assertEquals($errors.length, 1);
     }
 
-    /** @test */
-    public function validatesWithReqPropertyAttrs()
+    public function testFailsValidationWithoutReqPropertyAttrs()
     {
-        $mock = $this->createMock("Moves\TestHelpers\Models\PropertyConfigTest");
-
-        $mock->attributesToArray = function() {
-            return [
-                'first_name' => 'Marlene',
-                'last_name' => 'Dietrich'
-            ];
-        }
-        $mock->save();
-
-        assertEquals($errors.length, 0);
-    }
-
-    /** @test */
-    public function failsValidationWithoutReqMethodAttrs()
-    {
-        $mock = $this->createMock("Moves\TestHelpers\Models\MethodConfigTest");
-
-        $mock->getValidationData = function() {
-            return [
-                'last_name' => 'Ladd'
-            ];
+        $mock = new class extends MValidatableAttributes
+        {
+            public function attributesToArray()
+            {
+                return [
+                    'last_name' => 'Dietrich'
+                ];
+            }
         };
 
-        assertEquals($errors.length, 1);
+        $this->expectException(ValidationException::class);
+        $mock->save();
     }
 
-    /** @test */
-    public function failsValidationWithoutReqMethodAttrs()
+    public function testValidatesWithReqPropertyAttrs()
     {
-        $mock = $this->createMock("Moves\TestHelpers\Models\MethodConfigTest");
+        $mock = new class extends MValidatableAttributes
+        {
+            public function attributesToArray()
+            {
+                return [
+                    'first_name' => 'Marlene',
+                    'last_name' => 'Dietrich'
+                ];
+            }
+        };
+        $mock->save();
 
-        $mock->getValidationData = function() {
-            return [
-                'first_name' => 'Alan',
-                'last_name' => 'Ladd'
-            ];
+        $this->assertTrue(true);
+    }
+
+    public function testFailsValidationWithoutReqMethodAttrs()
+    {
+        $mock = new class extends MValidatableFunctions
+        {
+            public function getValidationData()
+            {
+                return [
+                    'last_name' => 'Ladd'
+                ];
+            }
         };
 
-        assertEquals($errors.length, 0);
+        $this->expectException(ValidationException::class);
+        $mock->save();
     }
 
-    /* When both properties and getter functions are set,
+    public function testValidatesWithReqMethodAttrs()
+    {
+        $mock = new class extends MValidatableFunctions
+        {
+            public function getValidationData() {
+                return [
+                    'first_name' => 'Alan',
+                    'last_name' => 'Ladd'
+                ];
+            }
+        };
+        $mock->save();
+
+        $this->assertTrue(true);
+    }
+
+    /* When both properties and getter functions are configured,
     * the getter functions take priority */
-    /** @test */
-    public function dataAccessPriorityTest()
+    public function testDataAccessPriorityTest()
     {
-        $mock = $this->createMock("Moves\TestHelpers\Models\PropertyConfigTest");
+        $mock = new MValidatableDataAccessPriority();
 
-        $mock->getValidationData = function() {
-            return [
-                'first_name' => 'Veronica',
-                'last_name' => 'Lake'
-            ];
-        };
-        $mock->attributesToArray = function() {
-            return [
-                'first_name' => 'Alan',
-                'last_name' => 'Ladd'
-            ];
-        };
-        $data = $mock->getValidationData();
+        $data = $mock->_getValidationData();
 
-        assertEquals('Veronica', $data['first_name']);
-        assertEquals('Lake', $data['last_name']);
+        $this->assertArrayHasKey('first_name', $data);
+        $this->assertArrayHasKey('last_name', $data);
+        $this->assertEquals('Veronica', $data['first_name']);
+        $this->assertEquals('Lake', $data['last_name']);
     }
 }

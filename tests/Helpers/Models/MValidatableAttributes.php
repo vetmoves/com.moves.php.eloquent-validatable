@@ -1,11 +1,16 @@
 <?php
 
-namespace Moves\TestHelpers\Models;
+namespace Tests\Helpers\Models;
 
-class PropertyConfigTest implements IValidatable
+use Illuminate\Database\Eloquent\Model;
+use Moves\Eloquent\Validatable\Interfaces\IValidatable;
+use Moves\Eloquent\Validatable\Validatable;
+
+class MValidatableAttributes extends Model implements IValidatable
 {
     use Validatable;
 
+    protected $table = 'test_users';
     protected $validateOnSave = true;
 
     protected $validationRules = [
