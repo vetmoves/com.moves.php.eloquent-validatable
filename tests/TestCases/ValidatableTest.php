@@ -48,7 +48,10 @@ class ValidatableTest extends TestCase
         };
         $mock->save();
 
-        $this->assertTrue(true);
+        $this->assertEquals($mock->validate(), [
+            'first_name' => 'Marlene',
+            'last_name' => 'Dietrich'
+        ]);
     }
 
     public function testFailsValidationWithoutReqMethodAttrs()
@@ -80,11 +83,14 @@ class ValidatableTest extends TestCase
         };
         $mock->save();
 
-        $this->assertTrue(true);
+        $this->assertEquals($mock->validate(), [
+            'first_name' => 'Alan',
+            'last_name' => 'Ladd'
+        ]);
     }
 
-    /* When both properties and getter functions are configured,
-    * the getter functions take priority */
+    /* When both properties and getter methods are configured,
+    * the getter methods should take priority */
     public function testDataAccessPriorityTest()
     {
         $mock = new MValidatableDataAccessPriority();

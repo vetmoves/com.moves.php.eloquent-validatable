@@ -6,8 +6,6 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    private static $isDBSetup = false;
-
     protected function setUp(): void
     {
         parent::setUp();
