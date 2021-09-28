@@ -7,6 +7,7 @@ use Tests\TestCases\TestCase;
 use Tests\Helpers\Models\MValidatableAttributes;
 use Tests\Helpers\Models\MValidatableFunctions;
 use Tests\Helpers\Models\MValidatableDataAccessPriority;
+use Tests\Helpers\Models\MValidatableBlank;
 
 class ValidatableTest extends TestCase
 {
@@ -87,6 +88,10 @@ class ValidatableTest extends TestCase
             'first_name' => 'Alan',
             'last_name' => 'Ladd'
         ]);
+        $this->assertEquals(
+            $mock->getValidationData(),
+            $mock->_getValidationData()
+        );
     }
 
     /* When both properties and getter methods are configured,
@@ -101,5 +106,52 @@ class ValidatableTest extends TestCase
         $this->assertArrayHasKey('last_name', $data);
         $this->assertEquals('Veronica', $data['first_name']);
         $this->assertEquals('Lake', $data['last_name']);
+    }
+
+    // Testing default behavior when no flags are set
+
+    public function testDefaultValidationData()
+    {
+        $mock = new MValidatableBlank();
+
+        $data = $mock->_getValidationData();
+
+        $this->assertEquals($data, []);
+    }
+
+    public function testDefaultValidateOnSave()
+    {
+        $mock = new MValidatableBlank();
+
+        $data = $mock->_getValidateOnSave();
+
+        $this->assertEquals($data, false);
+    }
+
+    public function testDefaultValidationRules()
+    {
+        $mock = new MValidatableBlank();
+
+        $data = $mock->_getValidationRules();
+
+        $this->assertEquals($data, []);
+    }
+
+    public function testDefaultValidationMessages()
+    {
+        $mock = new MValidatableBlank();
+
+        $data = $mock->_getValidationMessages();
+
+        $this->assertEquals($data, []);
+    }
+
+    public function testDefaultValidationCustomAttributes()
+    {
+        $mock = new MValidatableBlank();
+
+        $data = $mock->_getValidationCustomAttributes();
+
+        $this->assertEquals($data, []);
     }
 }
