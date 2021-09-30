@@ -110,13 +110,16 @@ class ValidatableTest extends TestCase
 
     // Testing default behavior when no flags are set
 
-    public function testDefaultValidationData()
+    public function testValidateOnSave()
     {
-        $mock = new MValidatableBlank();
+        $mock = new class extends MValidatableFunctions
+        {
+            public function getValidateOnSave() {
+                return true;
+            }
+        };
 
-        $data = $mock->_getValidationData();
-
-        $this->assertEquals($data, []);
+        $this->assertEquals($mock->_getValidateOnSave(), $mock->getValidateOnSave());
     }
 
     public function testDefaultValidateOnSave()
