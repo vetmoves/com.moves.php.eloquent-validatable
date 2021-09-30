@@ -35,11 +35,7 @@ trait Validatable
             return $this->getValidationData();
         }
 
-        if (method_exists($this, 'attributesToArray')) {
-            return $this->attributesToArray();
-        }
-
-        return [];
+        return $this->attributesToArray();
     }
 
     public function _getValidationRules(): array
