@@ -4,10 +4,10 @@ use Illuminate\Validation\ValidationException;
 
 use Tests\TestCases\TestCase;
 
-use Tests\Helpers\Models\MValidatableAttributes;
-use Tests\Helpers\Models\MValidatableFunctions;
-use Tests\Helpers\Models\MValidatableDataAccessPriority;
-use Tests\Helpers\Models\MValidatableBlank;
+use Tests\Models\MValidatableAttributes;
+use Tests\Models\MValidatableFunctions;
+use Tests\Models\MValidatableDataAccessPriority;
+use Tests\Models\MValidatableBlank;
 
 class ValidatableTest extends TestCase
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Moves\Eloquent\Validatable;
+namespace Moves\Eloquent\Validatable\Traits;
 
 use Illuminate\Support\Facades\Validator;
 use Moves\Eloquent\Validatable\Interfaces\IValidatable;
 
-trait Validatable
+trait TValidatable
 {
-    public static function bootValidatable()
+    public static function bootTValidatable()
     {
         static::saving(function (IValidatable $model) {
             if ($model->_getValidateOnSave()) {

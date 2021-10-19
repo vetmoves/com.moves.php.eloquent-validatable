@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Helpers\Models;
+namespace Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Moves\Eloquent\Validatable\Interfaces\IValidatable;
-use Moves\Eloquent\Validatable\Validatable;
+use Moves\Eloquent\Validatable\Traits\TValidatable;
 
 class MValidatableBlank extends Model implements IValidatable
 {
-    use Validatable;
+    use TValidatable;
 }
