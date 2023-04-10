@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.0.0](https://github.com/vetmoves/com.moves.php.eloquent.validatable/compare/2.0.0...3.0.0) (2023-04-10)
+
+### ⚠ BREAKING CHANGES
+
+* Upgrade to Laravel 10 ([2e3183](https://github.com/vetmoves/com.moves.php.eloquent.validatable/commit/2e31839680bd85e2d2ff4f2694c2333f82b670d9))
+
+
+---
+
 ## [2.0.0](https://github.com/vetmoves/com.moves.php.eloquent.validatable/compare/2.0.0-rc.1...2.0.0) (2022-09-07)
 
 
